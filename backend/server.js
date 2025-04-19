@@ -15,7 +15,12 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/market_man
 
 // Инициализация Express
 const app = express();
-app.use(cors());
+
+// Разрешаем доступ к серверу с фронтенда на localhost:5173
+app.use(cors({
+  origin: 'http://localhost:5173',  // разрешаем доступ только с фронтенда
+}));
+
 app.use(express.json());  // парсинг JSON тела запросов
 
 // Подключение к MongoDB
@@ -111,4 +116,3 @@ app.put('/api/spots/:id', verifyToken, async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
-
